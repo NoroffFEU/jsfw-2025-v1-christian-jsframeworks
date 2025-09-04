@@ -10,7 +10,7 @@ export default function Header() {
     <header className="sticky top-0 z-10 bg-white/70 backdrop-blur border-b">
       <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="font-bold text-xl">
-          Noroff Shop
+          React Shop
         </Link>
 
         <div className="flex items-center gap-4">
