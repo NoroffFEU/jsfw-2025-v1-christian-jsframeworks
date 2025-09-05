@@ -1,8 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
+import { useCart } from "../state/useCart";
 import CartIcon from "./CartIcon";
 
 export default function Header() {
-  const cartCount = 0;
+  const { totalQty } = useCart();
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `px-2 py-1 hover:underline ${isActive ? "font-semibold" : ""}`;
@@ -25,7 +26,7 @@ export default function Header() {
           </NavLink>
 
           <Link to="/checkout" aria-label="Open cart" className="ml-2">
-            <CartIcon count={cartCount} />
+            <CartIcon count={totalQty} />
           </Link>
         </div>
       </nav>
