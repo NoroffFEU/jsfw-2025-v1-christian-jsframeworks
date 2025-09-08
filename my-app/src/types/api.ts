@@ -21,3 +21,8 @@ export type ApiListResponse<T> = {
   data: T[];
   meta: unknown;
 };
+
+export type ApiSingleResponse<T> = {
+  data: T;
+  meta: unknown;
+};
