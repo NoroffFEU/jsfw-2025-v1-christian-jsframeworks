@@ -22,7 +22,7 @@ export default function ProductPage() {
   if (err) return <p className="p-4 text-red-700">{err}</p>;
 
   return (
-    <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+    <div className="grid p-6 gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {items.map((p) => {
         const hasDiscount = p.discountedPrice < p.price;
         const pct = hasDiscount
@@ -53,7 +53,7 @@ export default function ProductPage() {
                 <strong>{p.discountedPrice.toFixed(0)} NOK</strong>
                 {hasDiscount && (
                   <span className="line-through text-gray-300 text-sm">
-                    {p.price.toFixed(0)}
+                    {p.price.toFixed(0)} NOK
                   </span>
                 )}
               </div>
