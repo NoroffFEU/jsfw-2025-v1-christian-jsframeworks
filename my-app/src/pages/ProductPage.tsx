@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import type { Product, ApiListResponse } from "../types/api";
 import Pagination from "../components/Pagination";
+import ProductCard from "../components/ProductCard";
 
 export default function ProductPage() {
   const [items, setItems] = useState<Product[]>([]);
@@ -22,70 +22,35 @@ export default function ProductPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
-  const safePage = Math.min(Math.max(currentPage, 1), totalPages);
-
-  const currentItems = useMemo(() => {
-    const start = (safePage - 1) * pageSize;
-    return items.slice(start, start + pageSize);
-  }, [items, safePage]);
-
   if (loading) return <p className="p-4">Loading...</p>;
   if (err) return <p className="p-4 text-red-700">{err}</p>;
 
+  const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+  const safePage = Math.min(Math.max(currentPage, 1), totalPages);
+
+  const start = (safePage - 1) * pageSize;
+  const currentItems = items.slice(start, start + pageSize);
+
   return (
     <div className="p-6">
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {currentItems.map((p) => {
-          const hasDiscount = p.discountedPrice < p.price;
-          const pct = hasDiscount
-            ? Math.round((1 - p.discountedPrice / p.price) * 100)
-            : 0;
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+          {currentItems.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
 
-          return (
-            <Link
-              key={p.id}
-              to={`/products/${p.id}`}
-              className="group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition"
-            >
-              <img
-                src={p.image.url}
-                alt={p.image.alt}
-                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-
-              {hasDiscount && (
-                <span className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
-                  -{pct}%
-                </span>
-              )}
-
-              <div className="absolute bottom-0 w-full bg-black/70 text-white p-2 flex justify-between items-center">
-                <h3 className="font-semibold truncate">{p.title}</h3>
-                <div className="flex items-center gap-1">
-                  <strong>{p.discountedPrice.toFixed(0)} NOK</strong>
-                  {hasDiscount && (
-                    <span className="line-through text-gray-300 text-sm">
-                      {p.price.toFixed(0)} NOK
-                    </span>
-                  )}
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+        <Pagination
+          totalItems={items.length}
+          pageSize={pageSize}
+          currentPage={safePage}
+          onPageChange={(p) => {
+            setCurrentPage(p);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="mt-8"
+        />
       </div>
-
-      <Pagination
-        totalItems={items.length}
-        pageSize={pageSize}
-        currentPage={safePage}
-        onPageChange={(p) => {
-          setCurrentPage(p);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        className="mt-8"
-      />
     </div>
   );
 }

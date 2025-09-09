@@ -118,7 +118,7 @@ export default function ProductDetailPage() {
                     <div className="flex justify-between items-center text-sm font-medium text-gray-800">
                       <span>{r.username}</span>
                       <div className="flex items-center gap-1 text-yellow-500">
-                        <span className="font-semibold">{r.rating}</span>
+                        <span className="font-semibold">{r.rating}/5</span>
                         <span className="text-xl">⭐</span>
                       </div>
                     </div>
