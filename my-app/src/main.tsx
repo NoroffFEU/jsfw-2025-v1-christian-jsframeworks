@@ -8,6 +8,7 @@ import Layout from "./components/Layout.tsx";
 import App from "./App.tsx";
 import ProductPage from "./pages/ProductPage.tsx";
 import ProductDetailPage from "./pages/ProductDetailPage.tsx";
+import ContactPage from "./pages/ContactPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { index: true, element: <App /> },
       { path: "products", element: <ProductPage /> },
       { path: "products/:id", element: <ProductDetailPage /> },
+      { path: "contact", element: <ContactPage /> },
     ],
   },
 ]);
