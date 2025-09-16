@@ -3,11 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import type { Product, ApiSingleResponse } from "../types/api";
 import { useCart } from "../state/useCart";
+import Button from "../components/Button";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [item, setItem] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const { add } = useCart();
 
@@ -76,21 +78,30 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            <button
-              onClick={() => {
-                add({
-                  id: item.id,
-                  title: item.title,
-                  price: item.discountedPrice,
-                  imageUrl: item.image.url,
-                  qty: 1,
-                });
-                toast.success("Added to cart");
+            <Button
+              variant="primary"
+              size="lg"
+              block
+              loading={adding}
+              loadingText="Adding..."
+              onClick={async () => {
+                try {
+                  setAdding(true);
+                  add({
+                    id: item.id,
+                    title: item.title,
+                    price: item.discountedPrice,
+                    imageUrl: item.image.url,
+                    qty: 1,
+                  });
+                  toast.success("Added to cart");
+                } finally {
+                  setAdding(false);
+                }
               }}
-              className="w-full py-3 px-6 bg-indigo-600 text-white rounded-xl font-semibold shadow-md hover:bg-indigo-700 transition-colors duration-200"
             >
               Add to Cart
-            </button>
+            </Button>
 
             {item.tags?.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-2">
