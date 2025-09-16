@@ -1,4 +1,5 @@
 import React from "react";
+import Spinner from "./Spinner";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
@@ -51,7 +52,14 @@ export default function Button({
         className,
       ].join(" ")}
     >
-      {loading ? loadingText : children}
+      {loading ? (
+        <>
+          <Spinner size="sm" className="-ml-1" />
+          <span>{loadingText}</span>
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 }

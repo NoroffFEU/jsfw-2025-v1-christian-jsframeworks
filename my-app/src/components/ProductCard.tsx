@@ -30,7 +30,9 @@ export default function ProductCard({ product }: Props) {
       )}
 
       <div className="absolute bottom-0 w-full bg-black/70 text-white p-2 flex justify-between items-center">
-        <h3 className="font-semibold truncate">{product.title}</h3>
+        <h3 className="font-semibold truncate">
+          {product.title} ⭐{product.rating}
+        </h3>
         <div className="flex items-center gap-1">
           <strong>{product.discountedPrice.toFixed(0)} NOK</strong>
           {hasDiscount && (

@@ -4,6 +4,7 @@ import FormField from "../components/forms/FormField";
 import TextInput from "../components/forms/TextInput";
 import TextArea from "../components/forms/TextArea";
 import Button from "../components/Button";
+import Spinner from "../components/Spinner";
 
 type FormValues = {
   fullName: string;
@@ -40,10 +41,24 @@ export default function ContactPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [submitting, setSubmitting] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
     setErrors(validate(values));
   }, [values]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPageLoading(false), 300);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (pageLoading) {
+    return (
+      <main className="min-h-[70vh] grid place-items-center" aria-busy>
+        <Spinner size="lg" label="Loading page" />
+      </main>
+    );
+  }
 
   const fieldError = (k: keyof FormValues) =>
     touched[k] ? errors[k] : undefined;
@@ -98,7 +113,7 @@ export default function ContactPage() {
               </h1>
               <p className="mt-4 text-gray-800 max-w-2xl">
                 Questions about ordering or anything else? We'd love to hear
-                from you. Fill in the form below
+                from you. Fill in the form below.
               </p>
             </div>
 
@@ -115,94 +130,114 @@ export default function ContactPage() {
       </section>
 
       <div className="mx-auto max-w-2xl px-6 pb-12">
-        <form noValidate onSubmit={onSubmit} className="space-y-5">
-          <FormField
-            id="fullName"
-            label="Full Name"
-            error={fieldError("fullName")}
-            isRequired
+        <div className="relative" aria-busy={submitting}>
+          {submitting && (
+            <div className="absolute inset-0 z-10 grid place-items-center rounded-2xl bg-white/70 backdrop-blur-sm">
+              <Spinner size="lg" label="Sending message" />
+            </div>
+          )}
+
+          <form
+            noValidate
+            onSubmit={onSubmit}
+            className="space-y-5"
+            aria-busy={submitting}
           >
-            <TextInput
+            <FormField
               id="fullName"
-              name="fullName"
-              value={values.fullName}
-              onChange={onChange}
-              onBlur={onBlur}
-              placeholder="Jane Doe"
+              label="Full Name"
               error={fieldError("fullName")}
-              required
-            />
-          </FormField>
-
-          <FormField
-            id="subject"
-            label="Subject"
-            error={fieldError("subject")}
-            isRequired
-          >
-            <TextInput
-              id="subject"
-              name="subject"
-              value={values.subject}
-              onChange={onChange}
-              onBlur={onBlur}
-              placeholder="I need help with..."
-              error={fieldError("subject")}
-              required
-            />
-          </FormField>
-
-          <FormField
-            id="email"
-            label="Email"
-            error={fieldError("email")}
-            isRequired
-          >
-            <TextInput
-              id="email"
-              name="email"
-              type="email"
-              value={values.email}
-              onChange={onChange}
-              onBlur={onBlur}
-              placeholder="you@example.com"
-              error={fieldError("email")}
-              required
-            />
-          </FormField>
-
-          <FormField
-            id="message"
-            label="Message"
-            error={fieldError("message")}
-            isRequired
-          >
-            <TextArea
-              id="message"
-              name="message"
-              rows={6}
-              value={values.message}
-              onChange={onChange}
-              onBlur={onBlur}
-              placeholder="Write at least 10 characters..."
-              error={fieldError("message")}
-              required
-            />
-          </FormField>
-
-          <div className="pt-2">
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              block
-              loading={submitting}
-              loadingText="Sending..."
+              isRequired
             >
-              Send message
-            </Button>
-          </div>
-        </form>
+              <TextInput
+                id="fullName"
+                name="fullName"
+                value={values.fullName}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder="Jane Doe"
+                error={fieldError("fullName")}
+                autoComplete="name"
+                disabled={submitting}
+                required
+              />
+            </FormField>
+
+            <FormField
+              id="subject"
+              label="Subject"
+              error={fieldError("subject")}
+              isRequired
+            >
+              <TextInput
+                id="subject"
+                name="subject"
+                value={values.subject}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder="I need help with..."
+                error={fieldError("subject")}
+                disabled={submitting}
+                required
+              />
+            </FormField>
+
+            <FormField
+              id="email"
+              label="Email"
+              error={fieldError("email")}
+              isRequired
+            >
+              <TextInput
+                id="email"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder="you@example.com"
+                error={fieldError("email")}
+                autoComplete="email"
+                disabled={submitting}
+                required
+              />
+            </FormField>
+
+            <FormField
+              id="message"
+              label="Message"
+              error={fieldError("message")}
+              isRequired
+            >
+              <TextArea
+                id="message"
+                name="message"
+                rows={6}
+                value={values.message}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder="Write at least 10 characters..."
+                error={fieldError("message")}
+                autoComplete="off"
+                disabled={submitting}
+                required
+              />
+            </FormField>
+
+            <div className="pt-2">
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                block
+                loading={submitting}
+                loadingText="Sending..."
+              >
+                Send message
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </main>
   );

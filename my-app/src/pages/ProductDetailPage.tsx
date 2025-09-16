@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import type { Product, ApiSingleResponse } from "../types/api";
 import { useCart } from "../state/useCart";
 import Button from "../components/Button";
+import Spinner from "../components/Spinner";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,10 +32,46 @@ export default function ProductDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <p className="p-4">Loading...</p>;
-  if (err) return <p className="p-4 text-red-700">{err}</p>;
+  // Toast on error
+  useEffect(() => {
+    if (err) toast.error(`Failed to load product: ${err}`);
+  }, [err]);
 
-  if (!item) return <p className="p-4">Product not found</p>;
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center bg-gray-50">
+        <Spinner size="lg" label="Loading product" />
+      </div>
+    );
+  }
+
+  if (err) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center bg-red-50">
+        <div className="rounded-lg border border-red-200 bg-white px-6 py-4 text-red-700">
+          {err}
+          <div className="mt-3">
+            <Link to="/products" className="text-indigo-600 hover:underline">
+              ← Back to products
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!item) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center bg-gray-50">
+        <div className="text-gray-700">
+          Product not found.{" "}
+          <Link to="/products" className="text-indigo-600 hover:underline">
+            Go back to products
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const hasDiscount = item.discountedPrice < item.price;
 
@@ -56,7 +93,7 @@ export default function ProductDetailPage() {
           <div className="relative aspect-w-4 aspect-h-3">
             <img
               src={item.image.url}
-              alt={item.image.alt}
+              alt={item.image.alt || item.title}
               className="w-full h-full rounded-xl object-cover"
             />
           </div>
@@ -117,6 +154,7 @@ export default function ProductDetailPage() {
             )}
           </div>
         </div>
+
         <section className="mt-12">
           <h3 className="font-bold text-2xl text-gray-900 border-b pb-2">
             Reviews
