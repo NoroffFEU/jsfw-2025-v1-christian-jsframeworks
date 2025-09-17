@@ -82,7 +82,7 @@ export default function ProductPage() {
         />
 
         {!items.length && (
-          <p className="text-center text-gray-600 mt-8">No products found.</p>
+          <p className="text-center text-[#333333] mt-8">No products found.</p>
         )}
       </div>
     </div>

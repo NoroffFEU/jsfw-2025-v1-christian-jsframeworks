@@ -32,7 +32,6 @@ export default function ProductDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // Toast on error
   useEffect(() => {
     if (err) toast.error(`Failed to load product: ${err}`);
   }, [err]);
@@ -63,7 +62,7 @@ export default function ProductDetailPage() {
   if (!item) {
     return (
       <div className="min-h-[60vh] grid place-items-center bg-gray-50">
-        <div className="text-gray-700">
+        <div className="text-[#333333]">
           Product not found.{" "}
           <Link to="/products" className="text-indigo-600 hover:underline">
             Go back to products
@@ -81,7 +80,7 @@ export default function ProductDetailPage() {
         <div className="max-w-5xl mx-auto">
           <Link
             to="/products"
-            className="text-gray-600 hover:text-indigo-600 transition-colors"
+            className="text-[#333333] hover:text-[#6F6464] transition-colors"
           >
             <span aria-hidden="true">←</span> Back to products
           </Link>
@@ -99,24 +98,24 @@ export default function ProductDetailPage() {
           </div>
 
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-gray-900">{item.title}</h1>
-            <p className="mt-2 text-gray-700 leading-relaxed">
+            <h1 className="text-4xl font-bold text-[#333333]">{item.title}</h1>
+            <p className="mt-2 text-[#333333] leading-relaxed">
               {item.description}
             </p>
 
             <div className="mt-3 flex items-center gap-4">
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-3xl font-bold text-[#333333]">
                 {item.discountedPrice.toFixed(2)} NOK
               </span>
               {hasDiscount && (
-                <span className="line-through text-lg text-gray-400">
+                <span className="line-through text-lg text-[#333333]">
                   {item.price.toFixed(2)} NOK
                 </span>
               )}
             </div>
 
             <Button
-              variant="primary"
+              variant="secondary"
               size="lg"
               block
               loading={adding}
@@ -145,7 +144,7 @@ export default function ProductDetailPage() {
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full"
+                    className="bg-gray-100 text-[#333333] text-sm px-3 py-1 rounded-full"
                   >
                     {tag}
                   </span>
@@ -156,22 +155,22 @@ export default function ProductDetailPage() {
         </div>
 
         <section className="mt-12">
-          <h3 className="font-bold text-2xl text-gray-900 border-b pb-2">
+          <h3 className="font-bold text-2xl text-[#333333] border-b pb-2">
             Reviews
           </h3>
           {item.reviews?.length ? (
-            <div className="bg-white rounded-xl mt-4 overflow-hidden">
+            <div className="bg-[#B69899] rounded-xl mt-4 overflow-hidden">
               <ul className="divide-y divide-gray-200">
                 {item.reviews.map((r) => (
                   <li key={r.id} className="p-4">
-                    <div className="flex justify-between items-center text-sm font-medium text-gray-800">
+                    <div className="flex justify-between items-center text-sm font-medium text-[#333333]">
                       <span>{r.username}</span>
-                      <div className="flex items-center gap-1 text-yellow-500">
+                      <div className="flex items-center gap-1 text-[#333333]">
                         <span className="font-semibold">{r.rating}/5</span>
                         <span className="text-xl">⭐</span>
                       </div>
                     </div>
-                    <p className="text-gray-600 mt-2 text-sm">
+                    <p className="text-[#333333] mt-2 text-sm">
                       {r.description}
                     </p>
                   </li>
@@ -179,7 +178,7 @@ export default function ProductDetailPage() {
               </ul>
             </div>
           ) : (
-            <p className="text-gray-600 mt-4">No reviews yet. Be the first!</p>
+            <p className="text-[#333333] mt-4">No reviews yet. Be the first!</p>
           )}
         </section>
       </div>

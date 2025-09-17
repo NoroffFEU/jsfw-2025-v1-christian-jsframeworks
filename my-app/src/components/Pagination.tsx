@@ -48,7 +48,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(clamp(currentPage - 1))}
         disabled={currentPage === 1}
-        className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+        className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50 cursor-pointer"
         aria-label="Previous page"
       >
         Prev
@@ -64,9 +64,9 @@ export default function Pagination({
             key={p}
             onClick={() => onPageChange(p)}
             aria-current={currentPage === p ? "page" : undefined}
-            className={`px-3 py-1 rounded ${
+            className={`px-3 py-1 rounded cursor-pointer ${
               currentPage === p
-                ? "bg-blue-600 text-white"
+                ? "bg-black text-white"
                 : "bg-gray-200 hover:bg-gray-300"
             }`}
           >
@@ -78,7 +78,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(clamp(currentPage + 1))}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+        className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50 cursor-pointer"
         aria-label="Next page"
       >
         Next
