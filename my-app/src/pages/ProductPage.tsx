@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import type { Product, ApiListResponse } from "../types/api";
 import Pagination from "../components/Pagination";
 import ProductCard from "../components/ProductCard";
+import Spinner from "../components/Spinner";
 
 export default function ProductPage() {
   const [items, setItems] = useState<Product[]>([]);
@@ -22,19 +24,47 @@ export default function ProductPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="p-4">Loading...</p>;
-  if (err) return <p className="p-4 text-red-700">{err}</p>;
+  useEffect(() => {
+    if (err) toast.error(`Failed to load products: ${err}`);
+  }, [err]);
+
+  useEffect(() => {
+    if (!loading && !err && items.length === 0) {
+      toast("No products found.", { icon: "ℹ️" });
+    }
+  }, [loading, err, items.length]);
+
+  if (loading) {
+    return (
+      <div className="p-6">
+        <div className="mx-auto max-w-6xl min-h-[50vh] grid place-items-center">
+          <Spinner size="lg" label="Loading products" />
+        </div>
+      </div>
+    );
+  }
+
+  if (err) {
+    return (
+      <div className="p-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+            {err}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
   const safePage = Math.min(Math.max(currentPage, 1), totalPages);
-
   const start = (safePage - 1) * pageSize;
   const currentItems = items.slice(start, start + pageSize);
 
   return (
     <div className="p-6">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {currentItems.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
@@ -50,6 +80,10 @@ export default function ProductPage() {
           }}
           className="mt-8"
         />
+
+        {!items.length && (
+          <p className="text-center text-[#333333] mt-8">No products found.</p>
+        )}
       </div>
     </div>
   );

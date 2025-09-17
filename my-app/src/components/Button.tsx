@@ -1,4 +1,5 @@
 import React from "react";
+import Spinner from "./Spinner";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
@@ -12,16 +13,24 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-indigo-600 hover:bg-indigo-700 text-white",
-  secondary: "border border-gray-300 text-gray-800 hover:bg-gray-50",
+  primary:
+    "border-2 border-black bg-transparent text-[#333333] " +
+    "uppercase tracking-wide font-semibold rounded-xl shadow-none " +
+    "hover:bg-[#333333] hover:text-white " +
+    "focus-visible:ring-black",
+  secondary:
+    "border-2 bg-[#333333] text-white " +
+    "uppercase tracking-wide font-semibold rounded-xl shadow-none " +
+    "hover:bg-[#6F6464] hover:text-white " +
+    "focus-visible:ring-black",
   ghost: "bg-transparent text-indigo-700 hover:bg-indigo-50",
   danger: "bg-red-600 hover:bg-red-700 text-white",
 };
 
 const sizeClasses: Record<Size, string> = {
-  sm: "text-sm",
-  md: "text-base",
-  lg: "text-lg",
+  sm: "text-sm px-3 py-2",
+  md: "text-base px-5 py-3",
+  lg: "text-lg px-6 py-3",
 };
 
 export default function Button({
@@ -51,7 +60,14 @@ export default function Button({
         className,
       ].join(" ")}
     >
-      {loading ? loadingText : children}
+      {loading ? (
+        <>
+          <Spinner size="sm" className="-ml-1" />
+          <span>{loadingText}</span>
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 }

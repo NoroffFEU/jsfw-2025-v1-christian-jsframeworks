@@ -19,7 +19,7 @@ export default function TextArea({ error, className = "", ...rest }: Props) {
             : "border-gray-300 focus:border-gray-900"
         }
         focus:ring-0 focus:border-b-2
-        placeholder:text-gray-400
+        placeholder:text-[#333333]
         ${className}
       `}
     />
