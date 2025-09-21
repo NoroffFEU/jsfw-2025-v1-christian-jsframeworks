@@ -1,4 +1,4 @@
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 type CartIconProps = {
   count: number;
@@ -21,7 +21,7 @@ export default function CartIcon({
       aria-live="polite"
       aria-atomic="true"
     >
-      <ShoppingCartIcon
+      <ShoppingBagIcon
         aria-hidden="true"
         style={{ width: size, height: size }}
         className="stroke-2"

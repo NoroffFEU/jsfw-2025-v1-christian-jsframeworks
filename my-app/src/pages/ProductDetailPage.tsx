@@ -99,7 +99,9 @@ export default function ProductDetailPage() {
           </div>
 
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-[#333333]">{item.title}</h1>
+            <h1 className="text-4xl font-heading text-[#333333]">
+              {item.title}
+            </h1>
             <p className="mt-2 text-[#333333] leading-relaxed">
               {item.description}
             </p>
@@ -169,7 +171,6 @@ export default function ProductDetailPage() {
                       <RatingBadge
                         value={r.rating}
                         color="#B69899"
-                        showOutOf
                         className="text-[#333333]"
                       />
                     </div>

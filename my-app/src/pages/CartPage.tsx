@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Button from "../components/Button";
 import { useCart } from "../state/useCart";
-import { MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 export default function CartPage() {
-  const { items, totalCost, setQty, remove } = useCart();
+  const { items, totalCost, setQty, remove, clear } = useCart();
+  const navigate = useNavigate();
 
   const formatNok = (n: number) =>
     `${Math.round(n).toLocaleString("no-NO")} NOK`;
@@ -27,11 +28,27 @@ export default function CartPage() {
     toast.success(`Removed "${title}" from cart`);
   };
 
+  const onCheckout = () => {
+    toast.success("Checkout successful!");
+    clear();
+    navigate("/checkout/success");
+  };
+
   if (items.length === 0) {
     return (
-      <main className="bg-neutral-50 min-h-[60vh]">
+      <main className="bg-white min-h-[60vh]">
         <div className="mx-auto max-w-6xl px-4 py-10 text-center">
-          <h1 className="text-3xl font-bold text-[#333333]">Shopping Cart</h1>
+          <h1 className="text-3xl font-heading text-[#333333]">
+            Shopping Cart
+          </h1>
+          <div className="mx-auto mt-6 w-full max-w-sm rounded-2xl p-6">
+            <img
+              src="/public/emptypage.png"
+              alt="Your cart is empty"
+              className="w-full h-56 sm:h-84 object-contain"
+              loading="lazy"
+            />
+          </div>
           <p className="mt-6 text-[#333333]">
             Your cart is empty. Let's fix that!
           </p>
@@ -48,11 +65,11 @@ export default function CartPage() {
   }
 
   return (
-    <main className="bg-neutral-50">
+    <main className="bg-white">
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-3xl font-bold text-[#333333]">Shopping Cart</h1>
+        <h1 className="text-3xl font-heading text-[#333333]">Shopping Cart</h1>
 
-        <ul className="mt-8 divide-y divide-neutral-200 bg-white rounded-2xl overflow-hidden">
+        <ul className="mt-8 divide-y divide-neutral-200 bg-neutral-50 overflow-hidden">
           {items.map((i) => {
             const lineTotal = i.qty * i.price;
             return (
@@ -84,38 +101,25 @@ export default function CartPage() {
                           {formatNok(i.price)}
                         </span>
                       </span>
-
-                      <div className="flex items-center gap-2">
+                      <div
+                        className="inline-flex items-center overflow-hidden rounded-full border border-neutral-300 bg-white shadow-sm"
+                        aria-label={`Change quantity for ${i.title}`}
+                      >
                         <button
                           aria-label={`Decrease quantity of ${i.title}`}
-                          className="grid place-items-center w-8 h-8 rounded-lg border border-black"
+                          className="grid place-items-center w-9 h-9 hover:bg-neutral-100 disabled:opacity-40"
                           onClick={() => onDec(i.id, i.qty, i.title)}
                           disabled={i.qty <= 1}
                           title={i.qty <= 1 ? "Remove instead" : "Decrease"}
                         >
                           <MinusIcon className="w-4 h-4" />
                         </button>
-
-                        <input
-                          aria-label={`Quantity of ${i.title}`}
-                          className="w-12 text-center border border-neutral-300 rounded-lg py-1"
-                          type="number"
-                          min={1}
-                          value={i.qty}
-                          onChange={(e) => {
-                            const v = parseInt(e.target.value, 10);
-                            if (Number.isNaN(v)) return;
-                            if (v <= 0) {
-                              onRemove(i.id, i.title);
-                            } else {
-                              setQty(i.id, v);
-                            }
-                          }}
-                        />
-
+                        <span className="px-3 min-w-[2.5rem] text-center text-sm font-medium text-[#333333] select-none">
+                          {i.qty}
+                        </span>
                         <button
                           aria-label={`Increase quantity of ${i.title}`}
-                          className="grid place-items-center w-8 h-8 rounded-lg border border-black"
+                          className="grid place-items-center w-9 h-9 hover:bg-neutral-100"
                           onClick={() => onInc(i.id, i.qty)}
                         >
                           <PlusIcon className="w-4 h-4" />
@@ -133,7 +137,7 @@ export default function CartPage() {
                       onClick={() => onRemove(i.id, i.title)}
                       className="inline-flex items-center gap-1 text-sm text-neutral-600 hover:text-black"
                     >
-                      <XMarkIcon className="w-4 h-4" />
+                      <TrashIcon className="w-4 h-4" />
                       Remove
                     </button>
                   </div>
@@ -152,7 +156,7 @@ export default function CartPage() {
           </div>
 
           <div className="flex gap-3">
-            <Button variant="primary" size="md">
+            <Button variant="primary" size="md" onClick={onCheckout}>
               Checkout
             </Button>
             <Link to="/products">
