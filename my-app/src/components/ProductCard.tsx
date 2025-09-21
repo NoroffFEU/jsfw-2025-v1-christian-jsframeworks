@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Product } from "../types/api";
+import RatingBadge from "./RatingBadge";
 
 type Props = {
   product: Product;
@@ -36,8 +37,8 @@ export default function ProductCard({ product }: Props) {
           {product.title}
         </h3>
 
-        {typeof product.rating !== "undefined" && (
-          <p className="mt-1 text-xs text-neutral-600">⭐ {product.rating}</p>
+        {typeof product.rating === "number" && (
+          <RatingBadge value={product.rating} className="mt-1" />
         )}
 
         <div className="mt-2 flex items-center justify-center gap-2">

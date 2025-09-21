@@ -5,6 +5,7 @@ import type { Product, ApiSingleResponse } from "../types/api";
 import { useCart } from "../state/useCart";
 import Button from "../components/Button";
 import Spinner from "../components/Spinner";
+import RatingBadge from "../components/RatingBadge";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -75,7 +76,7 @@ export default function ProductDetailPage() {
   const hasDiscount = item.discountedPrice < item.price;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-12">
+    <div className="min-h-screen bg-white pb-12">
       <div className="bg-white border-b border-gray-200 py-4 px-4 md:px-8">
         <div className="max-w-5xl mx-auto">
           <Link
@@ -98,7 +99,9 @@ export default function ProductDetailPage() {
           </div>
 
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-[#333333]">{item.title}</h1>
+            <h1 className="text-4xl font-heading text-[#333333]">
+              {item.title}
+            </h1>
             <p className="mt-2 text-[#333333] leading-relaxed">
               {item.description}
             </p>
@@ -159,16 +162,17 @@ export default function ProductDetailPage() {
             Reviews
           </h3>
           {item.reviews?.length ? (
-            <div className="bg-[#B69899] rounded-xl mt-4 overflow-hidden">
+            <div className="bg-neutral-50 rounded-xl mt-4 overflow-hidden">
               <ul className="divide-y divide-gray-200">
                 {item.reviews.map((r) => (
                   <li key={r.id} className="p-4">
                     <div className="flex justify-between items-center text-sm font-medium text-[#333333]">
                       <span>{r.username}</span>
-                      <div className="flex items-center gap-1 text-[#333333]">
-                        <span className="font-semibold">{r.rating}/5</span>
-                        <span className="text-xl">⭐</span>
-                      </div>
+                      <RatingBadge
+                        value={r.rating}
+                        color="#B69899"
+                        className="text-[#333333]"
+                      />
                     </div>
                     <p className="text-[#333333] mt-2 text-sm">
                       {r.description}

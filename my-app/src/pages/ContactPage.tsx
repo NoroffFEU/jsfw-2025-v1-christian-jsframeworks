@@ -108,8 +108,8 @@ export default function ContactPage() {
         <div className="mx-auto max-w-7xl px-6 py-12">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#333333]">
-                Get in touch.
+              <h1 className="text-4xl md:text-6xl font-heading tracking-tight text-[#333333]">
+                Get in touch<span className="text-[#B69899]">.</span>
               </h1>
               <p className="mt-4 text-[#333333]-800 max-w-2xl">
                 Questions about ordering or anything else? We'd love to hear
