@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export type SearchSuggestion = {
   id: string;
@@ -17,6 +18,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   className?: string;
+  debounceMs?: number;
 };
 
 export default function SearchBox({
@@ -27,8 +29,43 @@ export default function SearchBox({
   label = "Search products",
   placeholder = "Search by name...",
   className = "",
+  debounceMs = 200,
 }: Props) {
   const [open, setOpen] = useState(false);
+
+  const noResultToastedRef = useRef(false);
+  const minChars = 2;
+
+  useEffect(() => {
+    const term = value.trim();
+    if (term.length < minChars || suggestions.length > 0) {
+      noResultToastedRef.current = false;
+      return;
+    }
+    const id = setTimeout(() => {
+      if (!noResultToastedRef.current) {
+        toast(`No matches for “${term}”`, { icon: "🔎" });
+        noResultToastedRef.current = true;
+      }
+    }, debounceMs);
+
+    return () => clearTimeout(id);
+  }, [value, suggestions, debounceMs]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const term = value.trim();
+      setOpen(false);
+      if (
+        term.length >= minChars &&
+        suggestions.length === 0 &&
+        !noResultToastedRef.current
+      ) {
+        toast(`No matches for “${term}”`, { icon: "🔎" });
+        noResultToastedRef.current = true;
+      }
+    }
+  };
 
   return (
     <div className={`relative w-full ${className}`}>
@@ -46,6 +83,7 @@ export default function SearchBox({
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2 text-[#333333] focus:outline-none focus:ring-2 focus:ring-black"
         />
