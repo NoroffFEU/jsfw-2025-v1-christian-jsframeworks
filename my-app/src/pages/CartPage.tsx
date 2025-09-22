@@ -43,7 +43,7 @@ export default function CartPage() {
           </h1>
           <div className="mx-auto mt-6 w-full max-w-sm rounded-2xl p-6">
             <img
-              src="/public/emptypage.png"
+              src="/emptypage.png"
               alt="Your cart is empty"
               className="w-full h-56 sm:h-84 object-contain"
               loading="lazy"

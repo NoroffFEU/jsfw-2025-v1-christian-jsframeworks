@@ -16,7 +16,7 @@ export default function Header() {
           <div />
           <Link
             to="/"
-            className="justify-self-center font-bold text-3xl tracking-tight"
+            className="justify-self-center font-heading text-3xl tracking-tight"
           >
             React Shop
           </Link>
