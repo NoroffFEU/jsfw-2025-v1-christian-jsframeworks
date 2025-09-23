@@ -4,9 +4,9 @@ import toast from "react-hot-toast";
 import type { Product, ApiListResponse } from "../types/api";
 import Pagination from "../components/Pagination";
 import ProductCard from "../components/ProductCard";
-import Spinner from "../components/Spinner";
 import SearchBox, { type SearchSuggestion } from "../components/SearchBox";
 import SortSelect from "../components/SortSelect";
+import PageLoader from "../components/PageLoader";
 
 type SortValue =
   | "relevance"
@@ -102,32 +102,21 @@ export default function ProductPage() {
   const start = (safePage - 1) * pageSize;
   const currentItems = sorted.slice(start, start + pageSize);
 
-  if (loading) {
-    return (
-      <div className="p-6">
-        <div className="mx-auto max-w-6xl min-h-[50vh] grid place-items-center">
-          <Spinner size="lg" label="Loading products" />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <main className="relative p-6" aria-busy={loading}>
+      {/* Full-viewport loading overlay */}
+      <PageLoader active={loading} label="Loading products…" />
 
-  if (err) {
-    return (
-      <div className="p-6">
-        <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl">
+        {/* Error banner */}
+        {err && !loading && (
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
             {err}
           </div>
-        </div>
-      </div>
-    );
-  }
+        )}
 
-  return (
-    <div className="p-6">
-      <div className="mx-auto max-w-6xl">
-        <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+        {/* Controls */}
+        <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6 mt-2">
           <SearchBox
             value={q}
             onChange={setQ}
@@ -138,31 +127,36 @@ export default function ProductPage() {
           <SortSelect value={sort} onChange={setSort} />
         </section>
 
-        {sorted.length === 0 ? (
-          <p className="text-center text-gray-600 mt-8">
-            No matches for “{q}”.
-          </p>
-        ) : (
+        {/* Grid / Empty note */}
+        {!err && (
           <>
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-              {currentItems.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
+            {sorted.length === 0 ? (
+              <p className="text-center text-gray-600 mt-8">
+                No matches for “{q}”.
+              </p>
+            ) : (
+              <>
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                  {currentItems.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))}
+                </div>
 
-            <Pagination
-              totalItems={sorted.length}
-              pageSize={pageSize}
-              currentPage={safePage}
-              onPageChange={(p) => {
-                setCurrentPage(p);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="mt-8"
-            />
+                <Pagination
+                  totalItems={sorted.length}
+                  pageSize={pageSize}
+                  currentPage={safePage}
+                  onPageChange={(p) => {
+                    setCurrentPage(p);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="mt-8"
+                />
+              </>
+            )}
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 }

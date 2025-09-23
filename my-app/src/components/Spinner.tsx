@@ -20,7 +20,7 @@ export default function Spinner({
       role="status"
       aria-live="polite"
       aria-label={label}
-      className={`inline-block rounded-full border-2 border-gray-300 border-t-indigo-600 animate-spin ${sizes[size]} ${className}`}
+      className={`inline-block rounded-full border-2 border-gray-300 border-t-black animate-spin ${sizes[size]} ${className}`}
     />
   );
 }

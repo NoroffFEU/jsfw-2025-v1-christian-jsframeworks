@@ -14,13 +14,13 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "border-2 border-black bg-transparent text-[#333333] " +
+    "border-2 border-black bg-transparent cursor-pointer text-[#333333] " +
     "uppercase tracking-wide font-semibold rounded-xl shadow-none " +
     "hover:bg-[#333333] hover:text-white " +
     "focus-visible:ring-black",
   secondary:
     "border-2 bg-[#333333] text-white " +
-    "uppercase tracking-wide font-semibold rounded-xl shadow-none " +
+    "uppercase cursor-pointer tracking-wide font-semibold rounded-xl shadow-none " +
     "hover:bg-[#6F6464] hover:text-white " +
     "focus-visible:ring-black",
   ghost: "bg-transparent text-indigo-700 hover:bg-indigo-50",
