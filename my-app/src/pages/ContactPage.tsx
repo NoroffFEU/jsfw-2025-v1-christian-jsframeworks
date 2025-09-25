@@ -5,6 +5,7 @@ import TextInput from "../components/forms/TextInput";
 import TextArea from "../components/forms/TextArea";
 import Button from "../components/Button";
 import Spinner from "../components/Spinner";
+import PageLoader from "../components/PageLoader";
 
 type FormValues = {
   fullName: string;
@@ -52,14 +53,6 @@ export default function ContactPage() {
     return () => clearTimeout(t);
   }, []);
 
-  if (pageLoading) {
-    return (
-      <main className="min-h-[70vh] grid place-items-center" aria-busy>
-        <Spinner size="lg" label="Loading page" />
-      </main>
-    );
-  }
-
   const fieldError = (k: keyof FormValues) =>
     touched[k] ? errors[k] : undefined;
 
@@ -103,7 +96,9 @@ export default function ContactPage() {
   };
 
   return (
-    <main>
+    <main className="relative" aria-busy={pageLoading || submitting}>
+      <PageLoader active={pageLoading} label="Loading page…" />
+
       <section className="w-full">
         <div className="mx-auto max-w-7xl px-6 py-12">
           <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -111,7 +106,7 @@ export default function ContactPage() {
               <h1 className="text-4xl md:text-6xl font-heading tracking-tight text-[#333333]">
                 Get in touch<span className="text-[#B69899]">.</span>
               </h1>
-              <p className="mt-4 text-[#333333]-800 max-w-2xl">
+              <p className="mt-4 text-[#333333] max-w-2xl">
                 Questions about ordering or anything else? We'd love to hear
                 from you. Fill in the form below.
               </p>
@@ -137,12 +132,7 @@ export default function ContactPage() {
             </div>
           )}
 
-          <form
-            noValidate
-            onSubmit={onSubmit}
-            className="space-y-5"
-            aria-busy={submitting}
-          >
+          <form noValidate onSubmit={onSubmit} className="space-y-5">
             <FormField
               id="fullName"
               label="Full Name"

@@ -1,21 +1,59 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./components/Button";
+import PageLoader from "./components/PageLoader";
 
 export default function Home() {
+  const [pageLoading, setPageLoading] = useState(true);
+
+  useEffect(() => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      setPageLoading(false);
+    };
+
+    if (document.readyState === "complete") {
+      finish();
+    } else {
+      window.addEventListener("load", finish, { once: true });
+    }
+
+    const t = window.setTimeout(finish, 1200);
+    return () => {
+      window.removeEventListener("load", finish);
+      clearTimeout(t);
+    };
+  }, []);
+
   return (
-    <main className="bg-white">
+    <main className="bg-white min-h-[60vh]" aria-busy={pageLoading}>
+      <PageLoader active={pageLoading} label="Loading page…" />
+
       <div className="mx-auto max-w-6xl px-4 py-14">
         <section className="grid md:grid-cols-2 items-center gap-10">
           <div className="text-center md:text-left">
             <p className="text-xs tracking-widest uppercase text-[#333333]/70">
               Welcome to
             </p>
+
             <h1 className="mt-1 text-4xl md:text-5xl font-heading text-[#333333]">
-              React Shop
+              <span className="inline-flex items-center gap-2 align-middle">
+                <img
+                  src="/blackbox.svg"
+                  alt="BlackBox logo"
+                  aria-hidden="true"
+                  className="h-9 md:h-20 w-auto select-none"
+                  draggable={false}
+                />
+                <span>BlackBox</span>
+              </span>
             </h1>
+
             <p className="mt-4 text-[#333333]">
-              Don't miss a chance to save on items you've been looking for.
-              Search, sort, and check out in seconds.
+              Don&apos;t miss a chance to save on items you&apos;ve been looking
+              for. Search, sort, and check out in seconds.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:justify-start justify-center">
@@ -54,7 +92,7 @@ export default function Home() {
           <div className="rounded-2xl bg-neutral-50 p-5 shadow-sm">
             <p className="font-semibold text-[#333333]">Clean catalog</p>
             <p className="text-sm text-[#333333]/80 mt-1">
-              Search & sort with ease.
+              Search &amp; sort with ease.
             </p>
           </div>
           <div className="rounded-2xl bg-neutral-50 p-5 shadow-sm">
