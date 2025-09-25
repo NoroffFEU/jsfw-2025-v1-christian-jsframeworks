@@ -8,6 +8,8 @@ import SearchBox, { type SearchSuggestion } from "../components/SearchBox";
 import SortSelect from "../components/SortSelect";
 import PageLoader from "../components/PageLoader";
 
+const API_BASE = "https://v2.api.noroff.dev";
+
 type SortValue =
   | "relevance"
   | "price-asc"
@@ -29,14 +31,17 @@ export default function ProductPage() {
     () => (searchParams.get("sort") as SortValue) ?? "relevance"
   );
 
+  async function fetchJson<T>(url: string): Promise<T> {
+    const r = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json() as Promise<T>;
+  }
+
   useEffect(() => {
-    const url = `${import.meta.env.VITE_API_BASE}/online-shop`;
-    fetch(url)
-      .then((r) =>
-        r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))
-      )
-      .then((json: ApiListResponse<Product>) => setItems(json.data))
-      .catch((e) => setErr(e.message))
+    setLoading(true);
+    fetchJson<ApiListResponse<Product>>(`${API_BASE}/online-shop`)
+      .then(({ data }) => setItems(data))
+      .catch((e) => setErr(e instanceof Error ? e.message : String(e)))
       .finally(() => setLoading(false));
   }, []);
 

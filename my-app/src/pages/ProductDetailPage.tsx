@@ -15,21 +15,23 @@ export default function ProductDetailPage() {
   const [err, setErr] = useState<string | null>(null);
   const { add } = useCart();
 
+  const API_BASE = "https://v2.api.noroff.dev";
+
   useEffect(() => {
     if (!id) return;
-    const API_BASE =
-      import.meta.env.VITE_API_BASE ?? "https://v2.api.noroff.dev";
-    const url = `${API_BASE}/online-shop/${id}`;
 
+    const url = `${API_BASE}/online-shop/${encodeURIComponent(id)}`;
     setLoading(true);
     setErr(null);
 
-    fetch(url)
+    fetch(url, { headers: { Accept: "application/json" } })
       .then((res) =>
-        res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`))
+        res.ok
+          ? (res.json() as Promise<ApiSingleResponse<Product>>)
+          : Promise.reject(new Error(`HTTP ${res.status}`))
       )
-      .then((json: ApiSingleResponse<Product>) => setItem(json.data))
-      .catch((e) => setErr(e.message))
+      .then(({ data }) => setItem(data))
+      .catch((e) => setErr(e instanceof Error ? e.message : String(e)))
       .finally(() => setLoading(false));
   }, [id]);
 
