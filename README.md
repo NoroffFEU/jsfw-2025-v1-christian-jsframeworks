@@ -28,8 +28,9 @@ Built with React, TypeScript, Vite, React Router, and Tailwind CSS.
 ### Install
 ```bash
 # clone your repo
-git clone [<your-repo-url>](https://github.com/NoroffFEU/jsfw-2025-v1-christian-jsframeworks)
+git clone (https://github.com/NoroffFEU/jsfw-2025-v1-christian-jsframeworks)
 cd my-app
 
 # install deps
 npm install
+
