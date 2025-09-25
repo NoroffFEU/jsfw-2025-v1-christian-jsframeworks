@@ -1,0 +1,55 @@
+<!-- blackbox-cube.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="BlackBox cube">
+  <defs>
+    <!-- subtle glossy gradients -->
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a2a2a"></stop>
+      <stop offset="0.6" stop-color="#111"></stop>
+      <stop offset="1" stop-color="#000"></stop>
+    </linearGradient>
+    <linearGradient id="left" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d1d1d"></stop>
+      <stop offset="0.65" stop-color="#0b0b0b"></stop>
+      <stop offset="1" stop-color="#000"></stop>
+    </linearGradient>
+    <linearGradient id="right" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1f1f"></stop>
+      <stop offset="0.6" stop-color="#0d0d0d"></stop>
+      <stop offset="1" stop-color="#000"></stop>
+    </linearGradient>
+    <!-- soft specular highlights -->
+    <radialGradient id="glossTop" cx="55%" cy="35%" r="60%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.25"></stop>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id="glossLeft" cx="55%" cy="45%" r="85%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"></stop>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id="glossRight" cx="45%" cy="45%" r="85%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"></stop>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop>
+    </radialGradient>
+  </defs>
+
+  <!-- geometry (isometric cube made from 3 rhombi) -->
+  <!-- points define a hex/cube centered roughly in the viewBox -->
+  <g transform="translate(16,10)">
+    <!-- faces -->
+    <polygon points="112,12 192,58 112,104 32,58" fill="url(#top)"></polygon>
+    <polygon points="32,58 112,104 112,190 32,144" fill="url(#left)"></polygon>
+    <polygon points="112,104 192,58 192,144 112,190" fill="url(#right)"></polygon>
+
+    <!-- face dividers -->
+    <path d="M32 58 L112 104 L192 58" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M112 104 L112 190" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"></path>
+
+    <!-- outer edges (thin to match reference) -->
+    <polyline points="32,58 112,12 192,58 192,144 112,190 32,144 32,58" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"></polyline>
+
+    <!-- glossy overlays -->
+    <polygon points="112,12 192,58 112,104 32,58" fill="url(#glossTop)"></polygon>
+    <polygon points="32,58 112,104 112,190 32,144" fill="url(#glossLeft)"></polygon>
+    <polygon points="112,104 192,58 192,144 112,190" fill="url(#glossRight)"></polygon>
+  </g>
+</svg>

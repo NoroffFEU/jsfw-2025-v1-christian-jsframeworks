@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           <div>
             <Link to="/" className="font-bold text-xl tracking-tight">
-              React Shop
+              BlackBox
             </Link>
             <p className="mt-2 text-sm">
               Find what you need fast—search, sort, and check out in seconds.
@@ -75,7 +75,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 border-t border-[#333333]/20 pt-4 text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <p>© {year} React Shop • All rights reserved</p>
+          <p>© {year} BlackBox • All rights reserved</p>
           <p className="text-xs opacity-80">
             Built and designed by Christian Grøtteland
           </p>

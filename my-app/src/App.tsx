@@ -37,9 +37,20 @@ export default function Home() {
             <p className="text-xs tracking-widest uppercase text-[#333333]/70">
               Welcome to
             </p>
+
             <h1 className="mt-1 text-4xl md:text-5xl font-heading text-[#333333]">
-              React Shop
+              <span className="inline-flex items-center gap-2 align-middle">
+                <img
+                  src="/blackbox.svg"
+                  alt="BlackBox logo"
+                  aria-hidden="true"
+                  className="h-9 md:h-20 w-auto select-none"
+                  draggable={false}
+                />
+                <span>BlackBox</span>
+              </span>
             </h1>
+
             <p className="mt-4 text-[#333333]">
               Don&apos;t miss a chance to save on items you&apos;ve been looking
               for. Search, sort, and check out in seconds.
