@@ -54,14 +54,14 @@ export default function Pagination({
         Prev
       </button>
 
-      {pages.map((p, i) =>
+      {pages.map((p) =>
         p === "…" ? (
-          <span key={`ellipsis-${i}`} className="px-2 select-none">
+          <span key={`ellipsis-${p}`} className="px-2 select-none">
             …
           </span>
         ) : (
           <button
-            key={p}
+            key={`page-${p}`}
             onClick={() => onPageChange(p)}
             aria-current={currentPage === p ? "page" : undefined}
             className={`px-3 py-1 rounded cursor-pointer ${

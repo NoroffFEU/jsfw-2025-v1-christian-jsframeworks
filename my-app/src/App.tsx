@@ -30,7 +30,6 @@ export default function Home() {
   return (
     <main className="bg-white min-h-[60vh]" aria-busy={pageLoading}>
       <PageLoader active={pageLoading} label="Loading page…" />
-
       <div className="mx-auto max-w-6xl px-4 py-14">
         <section className="grid md:grid-cols-2 items-center gap-10">
           <div className="text-center md:text-left">
