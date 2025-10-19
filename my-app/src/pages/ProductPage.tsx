@@ -109,18 +109,15 @@ export default function ProductPage() {
 
   return (
     <main className="relative p-6" aria-busy={loading}>
-      {/* Full-viewport loading overlay */}
       <PageLoader active={loading} label="Loading products…" />
 
       <div className="mx-auto max-w-6xl">
-        {/* Error banner */}
         {err && !loading && (
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
             {err}
           </div>
         )}
 
-        {/* Controls */}
         <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6 mt-2">
           <SearchBox
             value={q}
@@ -132,35 +129,31 @@ export default function ProductPage() {
           <SortSelect value={sort} onChange={setSort} />
         </section>
 
-        {/* Grid / Empty note */}
-        {!err && (
-          <>
-            {sorted.length === 0 ? (
-              <p className="text-center text-gray-600 mt-8">
-                No matches for “{q}”.
-              </p>
-            ) : (
-              <>
-                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                  {currentItems.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                  ))}
-                </div>
+        {!err &&
+          (sorted.length === 0 ? (
+            <p className="text-center text-gray-600 mt-8">
+              No matches for “{q}”.
+            </p>
+          ) : (
+            <>
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                {currentItems.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
 
-                <Pagination
-                  totalItems={sorted.length}
-                  pageSize={pageSize}
-                  currentPage={safePage}
-                  onPageChange={(p) => {
-                    setCurrentPage(p);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className="mt-8"
-                />
-              </>
-            )}
-          </>
-        )}
+              <Pagination
+                totalItems={sorted.length}
+                pageSize={pageSize}
+                currentPage={safePage}
+                onPageChange={(p) => {
+                  setCurrentPage(p);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="mt-8"
+              />
+            </>
+          ))}
       </div>
     </main>
   );

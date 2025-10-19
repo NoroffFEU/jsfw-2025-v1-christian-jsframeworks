@@ -40,7 +40,7 @@ export default function SearchBox({
     const term = value.trim();
     if (term.length < minChars || suggestions.length > 0) {
       noResultToastedRef.current = false;
-      return;
+      return () => {};
     }
     const id = setTimeout(() => {
       if (!noResultToastedRef.current) {
