@@ -1,5 +1,5 @@
 # BlackBox — Storefront (React + Vite + Tailwind)
-![Project Screenshot](/Blackboxhome.png)
+![Project Screenshot](/Public/Blackboxhome.png)
 
 A clean, responsive demo storefront with a product catalog, cart, and checkout UI.  
 Built with React, TypeScript, Vite, React Router, and Tailwind CSS.
@@ -33,4 +33,9 @@ cd my-app
 
 # install deps
 npm install
+
+ ```bash
+   npm run build
+   ```
+
 
