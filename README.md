@@ -34,9 +34,10 @@ cd my-app
 # install deps
 npm install
 
- ```bash
-   npm run build
+#
+npm run build
    ```
+
 
 
 
